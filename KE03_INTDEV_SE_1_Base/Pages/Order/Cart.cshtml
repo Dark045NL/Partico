@@ -1,0 +1,60 @@
+﻿@page
+@model Partico.Pages.Order.CartModel
+@{
+    ViewData["Title"] = "Winkelmand";
+}
+
+<h1>Winkelmand</h1>
+
+<div id="cartContent"><p>Je winkelmand is leeg.</p></div>
+
+<form method="post">
+    <input type="hidden" asp-for="CartJson" id="CartJson" />
+    <button type="submit" class="btn btn-success mt-3" onclick="prepareOrder()">Bestelling plaatsen</button>
+</form>
+
+@section Scripts {
+    <script>
+        function renderCart() {
+            const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+            const container = document.getElementById("cartContent");
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = "<p>Je winkelmand is leeg.</p>";
+                return;
+            }
+
+            let total = 0;
+            const rows = cart.map(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                return `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>€${item.price.toFixed(2)}</td>
+                        <td>€${subtotal.toFixed(2)}</td>
+                    </tr>`;
+            });
+
+            container.innerHTML = `
+                <table class="table table-bordered">
+                    <thead>
+                        <tr><th>Product</th><th>Aantal</th><th>Prijs</th><th>Subtotaal</th></tr>
+                    </thead>
+                    <tbody>${rows.join("")}</tbody>
+                </table>
+                <p class="text-end fw-bold">Totaal: €${total.toFixed(2)}</p>
+            `;
+        }
+
+        function prepareOrder() {
+            const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+            document.getElementById("CartJson").value = JSON.stringify(cart);
+            sessionStorage.removeItem("cart");
+        }
+
+        renderCart();
+    </script>
+}

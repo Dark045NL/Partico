@@ -1,28 +1,25 @@
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Partico.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IProductRepository _productRepository;
 
-        public IList<Customer> Customers { get; set; }
-
-        public IndexModel(ILogger<IndexModel> logger, ICustomerRepository customerRepository)
+        public IndexModel(IProductRepository productRepository)
         {
-            _logger = logger;
-            _customerRepository = customerRepository;
-            Customers = new List<Customer>();
+            _productRepository = productRepository;
         }
 
+        public List<Product> Products { get; set; }
+
         public void OnGet()
-        {            
-            Customers = _customerRepository.GetAllCustomers().ToList();                            
-            _logger.LogInformation($"getting all {Customers.Count} customers");
+        {
+            Products = _productRepository.GetAllProducts().ToList();
         }
     }
 }

@@ -20,3 +20,33 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Products */
+.card {
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+/* Winkelmand */
+#cartCount {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+}
+
+/* Totale prijs */
+#cartTotalPrice {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* totalen */
+#cartItems .text-end {
+    font-size: 1.1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
