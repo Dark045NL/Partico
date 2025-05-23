@@ -81,7 +81,7 @@ De bijgeleverde commitlog toont de voortgang van ontwikkeling en versiebeheer.
 
 ## 👨‍💻 Ontwikkelaar
 
-**Naam:** [Jouw naam hier invullen]  
+**Naam:** [Stephan B]  
 **Opleiding:** HBO-ICT  
 **Onderdeel:** Software Engineering – Interface Development  
 **School:** Zuyd Hogeschool  
