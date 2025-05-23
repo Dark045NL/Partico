@@ -1,7 +1,6 @@
 using DataAccessLayer.Interfaces;
-using DataAccessLayer.Models;
-using OrderModel = DataAccessLayer.Models.Order;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OrderModel = DataAccessLayer.Models.Order;
 
 namespace Partico.Pages.Orders
 
@@ -22,5 +21,7 @@ namespace Partico.Pages.Orders
         {
             Orders = _orderRepo.GetAllOrders().ToList();
         }
+
     }
 }
+

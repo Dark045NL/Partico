@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -11,19 +9,14 @@ namespace DataAccessLayer
     {
         public static void Initialize(MatrixIncDbContext context)
         {
-            // Look for any customers.
             if (context.Customers.Any())
             {
                 return;   // DB has been seeded
             }
 
-            // TODO: Hier moet ik nog wat namen verzinnen die betrekking hebben op de matrix.
-            // - Denk aan de m3 boutjes, moertjes en ringetjes.
-            // - Denk aan namen van schepen
-            // - Denk aan namen van vliegtuigen            
             var customers = new Customer[]
             {
-                new Customer { Name = "Neo", Address = "123 Elm St" , Active=true},
+                new Customer { Name = "Neo", Address = "123 Elm St", Active = true },
                 new Customer { Name = "Morpheus", Address = "456 Oak St", Active = true },
                 new Customer { Name = "Trinity", Address = "789 Pine St", Active = true }
             };
@@ -31,11 +24,11 @@ namespace DataAccessLayer
 
             var orders = new Order[]
             {
-                new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-01-01")},
-                new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-02-01")},
-                new Order { Customer = customers[1], OrderDate = DateTime.Parse("2021-02-01")},
-                new Order { Customer = customers[2], OrderDate = DateTime.Parse("2021-03-01")}
-            };  
+                new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-01-01") },
+                new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-02-01") },
+                new Order { Customer = customers[1], OrderDate = DateTime.Parse("2021-02-01") },
+                new Order { Customer = customers[2], OrderDate = DateTime.Parse("2021-03-01") }
+            };
             context.Orders.AddRange(orders);
 
             var products = new Product[]
@@ -48,12 +41,24 @@ namespace DataAccessLayer
 
             var parts = new Part[]
             {
-                new Part { Name = "Tandwiel", Description = "Overdracht van rotatie in bijvoorbeeld de motor of luikmechanismen"},
-                new Part { Name = "M5 Boutje", Description = "Bevestiging van panelen, buizen of interne modules"},
-                new Part { Name = "Hydraulische cilinder", Description = "Openen/sluiten van zware luchtsluizen of bewegende onderdelen"},
-                new Part { Name = "Koelvloeistofpomp", Description = "Koeling van de motor of elektronische systemen."}
+                new Part { Name = "Tandwiel", Description = "Overdracht van rotatie in bijvoorbeeld de motor of luikmechanismen" },
+                new Part { Name = "M5 Boutje", Description = "Bevestiging van panelen, buizen of interne modules" },
+                new Part { Name = "Hydraulische cilinder", Description = "Openen/sluiten van zware luchtsluizen of bewegende onderdelen" },
+                new Part { Name = "Koelvloeistofpomp", Description = "Koeling van de motor of elektronische systemen." }
             };
             context.Parts.AddRange(parts);
+
+            // Koppel producten aan orders (many-to-many)
+            orders[0].Products.Add(products[0]); // Neo – Order 1 → Nebuchadnezzar
+            orders[0].Products.Add(products[1]); // Neo – Order 1 → Jack-in Chair
+
+            orders[1].Products.Add(products[2]); // Neo – Order 2 → EMP
+
+            orders[2].Products.Add(products[1]); // Morpheus → Jack-in Chair
+
+            orders[3].Products.Add(products[0]); // Trinity → Nebuchadnezzar
+            orders[3].Products.Add(products[1]); // Trinity → Jack-in Chair
+            orders[3].Products.Add(products[2]); // Trinity → EMP
 
             context.SaveChanges();
 

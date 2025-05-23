@@ -1,11 +1,8 @@
 ﻿using DataAccessLayer.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -13,10 +10,11 @@ namespace DataAccessLayer.Repositories
     {
         private readonly MatrixIncDbContext _context;
 
-        public ProductRepository(MatrixIncDbContext context) 
+        public ProductRepository(MatrixIncDbContext context)
         {
             _context = context;
         }
+
         public void AddProduct(Product product)
         {
             _context.Products.Add(product);
@@ -31,7 +29,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return _context.Products.Include(p => p.Parts);
+            return _context.Products.Include(p => p.Parts).Include(p => p.Orders);
         }
 
         public Product? GetProductById(int id)
